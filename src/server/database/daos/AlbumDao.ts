@@ -13,4 +13,8 @@ export class AlbumDao extends Dao<Album> {
   constructor(daoOptions?: DaoOptions<Album>) {
     super(AlbumModel, daoOptions);
   }
+
+  public async getAlbumsByUser(userId: ID) {
+    this.get({ user: userId });
+  }
 }
