@@ -12,4 +12,8 @@ export class UserDao extends Dao<User> {
   constructor(daoOptions?: DaoOptions<User>) {
     super(UserModel, daoOptions);
   }
+
+  public async getUsers() {
+    return this.get({});
+  }
 }
