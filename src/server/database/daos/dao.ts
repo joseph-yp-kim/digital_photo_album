@@ -1,4 +1,4 @@
-import { Model as MongooseModel, Types, QueryOptions } from "mongoose";
+import { Model as MongooseModel, Types, QueryOptions } from 'mongoose';
 
 export type ID = string;
 export type ObjectId = Types.ObjectId | ID;
@@ -22,11 +22,8 @@ type QueryLeanOptions = {
 export class Dao<Model extends object> {
   protected leanOptions: QueryLeanOptions;
 
-  constructor(
-    protected model: MongooseModel<any>,
-    options?: DaoOptions<Model>
-  ) {
-    const virtuals = ["id", ...(options?.virtuals || [])];
+  constructor(protected model: MongooseModel<any>, options?: DaoOptions<Model>) {
+    const virtuals = ['id', ...(options?.virtuals || [])];
     this.leanOptions = { virtuals };
   }
 
@@ -68,9 +65,7 @@ export class Dao<Model extends object> {
   }
 
   public getNewInstance(fromInstance?: Model): Model {
-    return new this.model(
-      this.cleanInstance(fromInstance || {})
-    ).toObject() as Model;
+    return new this.model(this.cleanInstance(fromInstance || {})).toObject() as Model;
   }
 
   public async updateById(id: ID, update: Update<Model>) {
@@ -90,7 +85,7 @@ export class Dao<Model extends object> {
   public async updateOne(
     query: Query,
     update: Update<Model>,
-    options?
+    options?: QueryOptions,
   ): Promise<Model> {
     return this.model
       .findOneAndUpdate(query, update, { new: true, ...options })
@@ -98,11 +93,7 @@ export class Dao<Model extends object> {
       .exec() as Model;
   }
 
-  public async update(
-    query: Query,
-    update: Update<Model>,
-    options?: QueryOptions
-  ) {
+  public async update(query: Query, update: Update<Model>, options?: QueryOptions) {
     return this.model
       .updateMany(query, update, options)
       .lean(this.leanOptions as any)
@@ -133,15 +124,15 @@ export class Dao<Model extends object> {
 
   protected cleanInstance<T extends { [key: string]: any }, K = keyof T>(
     modelInstance: T,
-    extraProps?: K[]
+    extraProps?: K[],
   ): T {
     const instancePropertiesToRemove = [
-      "_id",
-      "__v",
-      "__t",
-      "id",
-      "createdAt",
-      "updatedAt",
+      '_id',
+      '__v',
+      '__t',
+      'id',
+      'createdAt',
+      'updatedAt',
       ...(extraProps || []),
     ];
 
