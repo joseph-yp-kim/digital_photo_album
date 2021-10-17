@@ -1,9 +1,17 @@
-import * as express from 'express';
+import * as express from "express";
+import { UserController } from "./routes/user";
 
-const router = express.Router();
+export default function routes(app: express.Application) {
+  const router = express.Router();
+  app.use("/api", router);
 
-router.get('/api/hello', (req, res, next) => {
-    res.json('World');
-});
+  router.get("/hello", (req, res, next) => {
+    res.json("World");
+  });
 
-export default router;
+  let controllers = [new UserController()];
+
+  controllers.forEach(function (ctrl) {
+    ctrl.initRoutes(router);
+  });
+}
